@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin — Rawfin Nayem</title>
+
+    <!-- Keep this page out of Google search results -->
+    <meta name="robots" content="noindex, nofollow">
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+
+        .admin-wrap {
+            max-width: 640px;
+            margin: 0 auto;
+            padding: 140px 20px 80px;
+        }
+
+        .admin-card {
+            background: rgba(255,255,255,0.035);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 20px;
+        }
+
+        .admin-card h2 {
+            font-family: Georgia, serif;
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #f1daa0;
+        }
+
+        .admin-field {
+            margin-bottom: 18px;
+        }
+
+        .admin-field label {
+            display: block;
+            font-size: 12px;
+            letter-spacing: 1px;
+            color: #d5b36a;
+            margin-bottom: 8px;
+        }
+
+        .admin-field input,
+        .admin-field textarea {
+            width: 100%;
+            padding: 12px 14px;
+            background: #0d1118;
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 10px;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+        }
+
+        .admin-field textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .admin-btn {
+            padding: 13px 26px;
+            border-radius: 30px;
+            border: none;
+            font-size: 13px;
+            font-weight: bold;
+            cursor: pointer;
+            color: #101010;
+            background: linear-gradient(135deg, #aa803c, #f0d897);
+        }
+
+        .admin-msg {
+            margin-top: 14px;
+            font-size: 13px;
+        }
+
+        .admin-msg.ok { color: #8fd19e; }
+        .admin-msg.err { color: #e07a7a; }
+
+        #logoutBtn {
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.2);
+            color: #eee;
+            padding: 10px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .hidden { display: none; }
+
+        .photo-row {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 16px;
+        }
+
+        .photo-preview {
+            width: 60px;
+            height: 60px;
+            border-radius: 10px;
+            background: #0d1118;
+            border: 1px solid rgba(255,255,255,0.12);
+            background-size: cover;
+            background-position: center;
+            flex-shrink: 0;
+        }
+
+        .photo-row-info {
+            flex: 1;
+        }
+
+        .photo-row-info label {
+            display: block;
+            font-size: 12px;
+            letter-spacing: 1px;
+            color: #d5b36a;
+            margin-bottom: 6px;
+        }
+
+        .photo-row-info input[type="file"] {
+            font-size: 11px;
+            color: #b7bac1;
+            width: 100%;
+        }
+
+        .photo-status {
+            font-size: 11px;
+            margin-top: 4px;
+        }
+
+        .gallery-grid-admin {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<header class="header">
+    <a href="index.html" class="logo">
+        <span>RN</span>
+        <b>Admin Panel</b>
+    </a>
+</header>
+
+<div class="admin-wrap">
+
+    <!-- LOGIN CARD -->
+    <div class="admin-card" id="loginCard">
+        <h2>লগইন করুন</h2>
+
+        <div class="admin-field">
+            <label>EMAIL</label>
+            <input type="email" id="loginEmail" placeholder="you@example.com">
+        </div>
+
+        <div class="admin-field">
+            <label>PASSWORD</label>
+            <input type="password" id="loginPassword" placeholder="••••••••">
+        </div>
+
+        <button class="admin-btn" id="loginBtn">লগইন</button>
+
+        <p class="admin-msg" id="loginMsg"></p>
+    </div>
+
+
+    <!-- EDIT CARD (hidden until logged in) -->
+    <div class="admin-card hidden" id="editCard">
+
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+            <h2 style="margin:0;">কনটেন্ট এডিট করুন</h2>
+            <button id="logoutBtn">লগআউট</button>
+        </div>
+
+        <div class="admin-field">
+            <label>আমার সম্পর্কে (BIO)</label>
+            <textarea id="bioInput"></textarea>
+        </div>
+
+        <div class="admin-field">
+            <label>বাবার নাম</label>
+            <input type="text" id="fatherNameInput">
+        </div>
+
+        <div class="admin-field">
+            <label>বাবার সম্পর্কে</label>
+            <textarea id="fatherInfoInput"></textarea>
+        </div>
+
+        <div class="admin-field">
+            <label>মায়ের নাম</label>
+            <input type="text" id="motherNameInput">
+        </div>
+
+        <div class="admin-field">
+            <label>মায়ের সম্পর্কে</label>
+            <textarea id="motherInfoInput"></textarea>
+        </div>
+
+        <div class="admin-field">
+            <label>পারিবারিক গল্প</label>
+            <textarea id="familyStoryInput"></textarea>
+        </div>
+
+        <button class="admin-btn" id="saveBtn">টেক্সট সেভ করুন</button>
+
+        <p class="admin-msg" id="saveMsg"></p>
+
+    </div>
+
+
+    <!-- PHOTOS CARD -->
+    <div class="admin-card hidden" id="photoCard">
+
+        <h2>ছবি আপলোড করুন</h2>
+        <p style="color:#969ba5; font-size:12px; margin-top:-12px; margin-bottom:20px;">
+            ছবি সিলেক্ট করলেই স্বয়ংক্রিয়ভাবে আপলোড ও সেভ হয়ে যাবে।
+        </p>
+
+        <div class="photo-row">
+            <div class="photo-preview" id="preview-profile"></div>
+            <div class="photo-row-info">
+                <label>প্রোফাইল ছবি (হোম পেজ)</label>
+                <input type="file" accept="image/*" data-field="profilePhoto" data-preview="preview-profile" class="photoInput">
+                <div class="photo-status" data-status="profilePhoto"></div>
+            </div>
+        </div>
+
+        <div class="photo-row">
+            <div class="photo-preview" id="preview-about"></div>
+            <div class="photo-row-info">
+                <label>About সেকশনের ছবি</label>
+                <input type="file" accept="image/*" data-field="aboutPhoto" data-preview="preview-about" class="photoInput">
+                <div class="photo-status" data-status="aboutPhoto"></div>
+            </div>
+        </div>
+
+        <div class="photo-row">
+            <div class="photo-preview" id="preview-father"></div>
+            <div class="photo-row-info">
+                <label>বাবার ছবি</label>
+                <input type="file" accept="image/*" data-field="fatherPhoto" data-preview="preview-father" class="photoInput">
+                <div class="photo-status" data-status="fatherPhoto"></div>
+            </div>
+        </div>
+
+        <div class="photo-row">
+            <div class="photo-preview" id="preview-mother"></div>
+            <div class="photo-row-info">
+                <label>মায়ের ছবি</label>
+                <input type="file" accept="image/*" data-field="motherPhoto" data-preview="preview-mother" class="photoInput">
+                <div class="photo-status" data-status="motherPhoto"></div>
+            </div>
+        </div>
+
+        <div class="photo-row">
+            <div class="photo-preview" id="preview-sibling"></div>
+            <div class="photo-row-info">
+                <label>ভাই/বোনের ছবি</label>
+                <input type="file" accept="image/*" data-field="siblingPhoto" data-preview="preview-sibling" class="photoInput">
+                <div class="photo-status" data-status="siblingPhoto"></div>
+            </div>
+        </div>
+
+        <h2 style="margin-top:30px;">গ্যালারি (৬টা ছবি)</h2>
+
+        <div class="gallery-grid-admin">
+
+            <div class="photo-row" style="flex-direction:column; align-items:flex-start;">
+                <div class="photo-preview" id="preview-gallery-0" style="width:100%; height:100px;"></div>
+                <input type="file" accept="image/*" data-gallery-index="0" class="galleryInput" style="margin-top:8px;">
+                <div class="photo-status" data-status="gallery-0"></div>
+            </div>
+
+            <div class="photo-row" style="flex-direction:column; align-items:flex-start;">
+                <div class="photo-preview" id="preview-gallery-1" style="width:100%; height:100px;"></div>
+                <input type="file" accept="image/*" data-gallery-index="1" class="galleryInput" style="margin-top:8px;">
+                <div class="photo-status" data-status="gallery-1"></div>
+            </div>
+
+            <div class="photo-row" style="flex-direction:column; align-items:flex-start;">
+                <div class="photo-preview" id="preview-gallery-2" style="width:100%; height:100px;"></div>
+                <input type="file" accept="image/*" data-gallery-index="2" class="galleryInput" style="margin-top:8px;">
+                <div class="photo-status" data-status="gallery-2"></div>
+            </div>
+
+            <div class="photo-row" style="flex-direction:column; align-items:flex-start;">
+                <div class="photo-preview" id="preview-gallery-3" style="width:100%; height:100px;"></div>
+                <input type="file" accept="image/*" data-gallery-index="3" class="galleryInput" style="margin-top:8px;">
+                <div class="photo-status" data-status="gallery-3"></div>
+            </div>
+
+            <div class="photo-row" style="flex-direction:column; align-items:flex-start;">
+                <div class="photo-preview" id="preview-gallery-4" style="width:100%; height:100px;"></div>
+                <input type="file" accept="image/*" data-gallery-index="4" class="galleryInput" style="margin-top:8px;">
+                <div class="photo-status" data-status="gallery-4"></div>
+            </div>
+
+            <div class="photo-row" style="flex-direction:column; align-items:flex-start;">
+                <div class="photo-preview" id="preview-gallery-5" style="width:100%; height:100px;"></div>
+                <input type="file" accept="image/*" data-gallery-index="5" class="galleryInput" style="margin-top:8px;">
+                <div class="photo-status" data-status="gallery-5"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script type="module">
+
+import { auth, db } from "./firebase-config.js";
+import { signInWithEmailAndPassword, signOut, onAuthStateChanged }
+    from "https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js";
+import { doc, getDoc, setDoc }
+    from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
+
+// ImgBB — free image hosting, no card required
+const IMGBB_API_KEY = "67b91407a9dc6fa581fb6c14c05af5c0";
+
+const loginCard = document.getElementById("loginCard");
+const editCard = document.getElementById("editCard");
+const photoCard = document.getElementById("photoCard");
+const loginMsg = document.getElementById("loginMsg");
+const saveMsg = document.getElementById("saveMsg");
+
+const contentRef = doc(db, "site", "content");
+let currentGallery = ["", "", "", "", "", ""];
+
+/* ---------- LOGIN ---------- */
+
+document.getElementById("loginBtn").addEventListener("click", async function () {
+    const email = document.getElementById("loginEmail").value.trim();
+    const password = document.getElementById("loginPassword").value;
+
+    loginMsg.textContent = "";
+
+    try {
+        await signInWithEmailAndPassword(auth, email, password);
+    } catch (err) {
+        loginMsg.textContent = "লগইন ব্যর্থ — ইমেইল বা পাসওয়ার্ড ভুল।";
+        loginMsg.className = "admin-msg err";
+    }
+});
+
+/* ---------- LOGOUT ---------- */
+
+document.getElementById("logoutBtn").addEventListener("click", function () {
+    signOut(auth);
+});
+
+/* ---------- AUTH STATE ---------- */
+
+onAuthStateChanged(auth, async function (user) {
+    if (user) {
+        loginCard.classList.add("hidden");
+        editCard.classList.remove("hidden");
+        photoCard.classList.remove("hidden");
+        await loadCurrentContent();
+    } else {
+        loginCard.classList.remove("hidden");
+        editCard.classList.add("hidden");
+        photoCard.classList.add("hidden");
+    }
+});
+
+/* ---------- LOAD EXISTING CONTENT INTO THE FORM ---------- */
+
+async function loadCurrentContent() {
+    const snap = await getDoc(contentRef);
+    if (!snap.exists()) return;
+
+    const data = snap.data();
+
+    document.getElementById("bioInput").value = data.bio || "";
+    document.getElementById("fatherNameInput").value = data.fatherName || "";
+    document.getElementById("fatherInfoInput").value = data.fatherInfo || "";
+    document.getElementById("motherNameInput").value = data.motherName || "";
+    document.getElementById("motherInfoInput").value = data.motherInfo || "";
+    document.getElementById("familyStoryInput").value = data.familyStory || "";
+
+    setPreview("preview-profile", data.profilePhoto);
+    setPreview("preview-about", data.aboutPhoto);
+    setPreview("preview-father", data.fatherPhoto);
+    setPreview("preview-mother", data.motherPhoto);
+    setPreview("preview-sibling", data.siblingPhoto);
+
+    currentGallery = data.gallery || ["", "", "", "", "", ""];
+    currentGallery.forEach(function (url, i) {
+        setPreview("preview-gallery-" + i, url);
+    });
+}
+
+function setPreview(elId, url) {
+    const el = document.getElementById(elId);
+    if (el && url) {
+        el.style.backgroundImage = "url('" + url + "')";
+        el.style.backgroundSize = "cover";
+        el.style.backgroundPosition = "center";
+    }
+}
+
+/* ---------- SAVE TEXT ---------- */
+
+document.getElementById("saveBtn").addEventListener("click", async function () {
+    saveMsg.textContent = "";
+
+    const payload = {
+        bio: document.getElementById("bioInput").value,
+        fatherName: document.getElementById("fatherNameInput").value,
+        fatherInfo: document.getElementById("fatherInfoInput").value,
+        motherName: document.getElementById("motherNameInput").value,
+        motherInfo: document.getElementById("motherInfoInput").value,
+        familyStory: document.getElementById("familyStoryInput").value
+    };
+
+    try {
+        await setDoc(contentRef, payload, { merge: true });
+        saveMsg.textContent = "সেভ হয়ে গেছে ✅ — মূল সাইটে গিয়ে চেক করুন।";
+        saveMsg.className = "admin-msg ok";
+    } catch (err) {
+        saveMsg.textContent = "সেভ করা যায়নি: " + err.message;
+        saveMsg.className = "admin-msg err";
+    }
+});
+
+/* ---------- IMGBB UPLOAD ---------- */
+
+async function uploadToImgBB(file) {
+    const formData = new FormData();
+    formData.append("image", file);
+
+    const res = await fetch("https://api.imgbb.com/1/upload?key=" + IMGBB_API_KEY, {
+        method: "POST",
+        body: formData
+    });
+
+    const result = await res.json();
+
+    if (!result.success) {
+        throw new Error("ImgBB upload failed");
+    }
+
+    return result.data.url;
+}
+
+/* ---------- SINGLE PHOTO INPUTS (profile / about / father / mother / sibling) ---------- */
+
+document.querySelectorAll(".photoInput").forEach(function (input) {
+    input.addEventListener("change", async function () {
+        const file = input.files[0];
+        if (!file) return;
+
+        const field = input.dataset.field;
+        const previewId = input.dataset.preview;
+        const statusEl = document.querySelector('[data-status="' + field + '"]');
+
+        statusEl.textContent = "আপলোড হচ্ছে...";
+        statusEl.style.color = "#d5b36a";
+
+        try {
+            const url = await uploadToImgBB(file);
+            setPreview(previewId, url);
+
+            const payload = {};
+            payload[field] = url;
+            await setDoc(contentRef, payload, { merge: true });
+
+            statusEl.textContent = "সেভ হয়ে গেছে ✅";
+            statusEl.style.color = "#8fd19e";
+        } catch (err) {
+            statusEl.textContent = "ব্যর্থ হয়েছে, আবার চেষ্টা করুন।";
+            statusEl.style.color = "#e07a7a";
+        }
+    });
+});
+
+/* ---------- GALLERY INPUTS ---------- */
+
+document.querySelectorAll(".galleryInput").forEach(function (input) {
+    input.addEventListener("change", async function () {
+        const file = input.files[0];
+        if (!file) return;
+
+        const index = parseInt(input.dataset.galleryIndex, 10);
+        const statusEl = document.querySelector('[data-status="gallery-' + index + '"]');
+
+        statusEl.textContent = "আপলোড হচ্ছে...";
+        statusEl.style.color = "#d5b36a";
+
+        try {
+            const url = await uploadToImgBB(file);
+            setPreview("preview-gallery-" + index, url);
+
+            currentGallery[index] = url;
+            await setDoc(contentRef, { gallery: currentGallery }, { merge: true });
+
+            statusEl.textContent = "সেভ হয়ে গেছে ✅";
+            statusEl.style.color = "#8fd19e";
+        } catch (err) {
+            statusEl.textContent = "ব্যর্থ হয়েছে, আবার চেষ্টা করুন।";
+            statusEl.style.color = "#e07a7a";
+        }
+    });
+});
+
+</script>
+
+</body>
+</html>
